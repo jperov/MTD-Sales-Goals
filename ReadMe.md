@@ -4,10 +4,6 @@
 The MTD Sales Goals report compares each stores month-to-date sales versus their sales goals. Data was stored in Big Query and/ connected to Google Sheets for easy viewing. The SQL query used to create the report and an image of the query output can be found below.
 
 <br>
-<br>
-
-The full report can be viewed [here](https://docs.google.com/spreadsheets/d/1MEWmhq633yTtfmOw41zC6IutEKzrT65g-0mpXVMxhu8/edit?gid=1316513782#gid=1316513782)
-
 
 <br>
 <br>
