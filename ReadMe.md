@@ -81,5 +81,5 @@ ORDER BY MTD_Percent DESC;
 <br>
 
 ## Output MTD Sales Goals Report
-<img src=MTD_Goals_Report_img/"MTD_Goals_Report_img.PNG width="2000" height="3000" />
+<img src="MTD_Goals_Report_img.PNG" width="2000" height="3000" />
 
