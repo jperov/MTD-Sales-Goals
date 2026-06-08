@@ -1,10 +1,17 @@
 # MTD-Sales-Goals
 
 
+
 <br>
 <br>
 
-###SQL Queries Used
+The full report can be viewed [here](https://docs.google.com/spreadsheets/d/1MEWmhq633yTtfmOw41zC6IutEKzrT65g-0mpXVMxhu8/edit?gid=1316513782#gid=1316513782)
+
+
+<br>
+<br>
+
+### SQL Query Used
 ```SQL
 -- Gathers all daily goals data from the goals table.
 WITH
@@ -15,6 +22,7 @@ daily_goals AS (
     Goal
   FROM jacobperovichportfolio.goals
 ),
+
 
 -- Aggregates total sales per store and day while ignoring bag fees and gift card sales.
 net_sales_per_store AS (
@@ -27,6 +35,7 @@ net_sales_per_store AS (
     lower(product_name) <> 'bag_fee' AND lower(product_name) <> 'gift_card'
   GROUP BY Date, Location
 ),
+
 
 -- Daily goals data is joined to the aggregated daily sales table.
 combined AS (
@@ -44,6 +53,7 @@ combined AS (
     -- Updates to this report were made once at the start of a new day. In order to show the correct MTD goal amount for each store, the total goal needed to be calculated only up to the prior day.
 ),
 
+
 -- Aggregates daily store data to MTD (one row per store).
 mtd_summary AS (
   SELECT
@@ -54,6 +64,7 @@ mtd_summary AS (
   FROM combined
   GROUP BY Location
 )
+
 
 SELECT
   Location,
