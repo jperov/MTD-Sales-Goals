@@ -28,7 +28,7 @@ net_sales_per_store AS (
     ROUND(SUM(Net_sales), 2) AS Net_Sales
   FROM jacobperovichportfolio.sales
   WHERE
-    lower(product_name) <> 'bag_fee' AND lower(product_name) <> 'gift_card'
+    LOWER(product_name) NOT IN('bag_fee', 'gift_card')
   GROUP BY Date, Location
 ),
 
