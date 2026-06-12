@@ -20,7 +20,7 @@ daily_goals AS (
 ),
 
 
--- Aggregates total sales per store and day while ignoring bag fees and gift card sales.
+-- Aggregates total sales per store and day while filtering out bag fees and gift card sales.
 net_sales_per_store AS (
   SELECT
     Date,
