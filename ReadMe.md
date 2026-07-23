@@ -13,7 +13,7 @@ The MTD Sales Goals report compares each stores month-to-date sales versus their
 WITH
 daily_goals AS (
   SELECT
-    SAFE_CAST(date AS DATE) AS date,
+    CAST(date AS DATE) AS date,
     Location,
     Goal
   FROM jacobperovichportfolio.goals
@@ -46,7 +46,8 @@ combined AS (
     AND g.location = ns.location
   WHERE
     g.date BETWEEN '2025-01-01' AND CURRENT_DATE - INTERVAL 1 day
-    -- Updates to this report were made once at the start of a new day. In order to show the correct MTD goal amount for each store, the total goal needed to be calculated only up to the prior day.
+    -- Updates to this report were made once at the start of a new day. In order to show the correct MTD goal amount for each store, the total goal
+       needed to be calculated only up to the prior day.
 ),
 
 
