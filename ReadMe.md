@@ -5,27 +5,27 @@ The MTD Sales Goals report compares each store's month-to-date sales against it'
 
 ## Dataset
 
-Two tables were joined together to create this report. The **"Daily_Store_Goals"** table, and the **"Store_Item_Sales"** table. Each tables details are shown below.
+Two tables were joined together to create this report. The **"Daily_Store_Goals"** table and the **"Store_Item_Sales"** table. Details on boht tables are shown below.
 
 <br>
 
 **Table 1: Daily_Store_Goals**
-* **Data:** Each stores daily sales goal in February 2026
+* **Data:** All stores sales goals for each day in February 2026
 * **Number of Rows:** 700
 
-**Schema:**
+  **Schema:**
 
-<img src="images/Schema_Sales_Goals_Table.PNG" width="200" alt="schema">
+  <img src="images/Schema_Sales_Goals_Table.PNG" width="200" alt="schema">
 
 <br>
 
 **Table 2: Store_Item_Sales**
-* **Data:** All item-level sales of all stores in February 2026
+* **Data:** All stores item-level sales in February 2026
 * **Number of Rows:** 51k
 
-**Schema:**
+  **Schema:**
 
-<img src="images/Schema_Sales_Table.PNG" width="200" alt="schema">
+  <img src="images/Schema_Sales_Table.PNG" width="200" alt="schema">
 
 <br>
 
