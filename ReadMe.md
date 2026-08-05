@@ -20,7 +20,7 @@ Two tables were joined together to create this report. The **"Daily_Store_Goals"
 <br>
 
 **Table 2: Store_Item_Sales**
-* **Data:** All item-level sales for all stores in February 2026
+* **Data:** All item-level sales of all stores in February 2026
 * **Number of Rows:** 51k
 
 **Schema:**
@@ -31,74 +31,69 @@ Two tables were joined together to create this report. The **"Daily_Store_Goals"
 
 ## SQL Query Used
 ```SQL
--- Gathers all daily goals data from the goals table.
+-- Gathers all stores daily sales goals from the "Daily_Store_Goals" table.
 WITH
 daily_goals AS (
   SELECT
     CAST(date AS DATE) AS date,
-    Location,
+    TRIM(Location) AS Store,
     Goal
-  FROM jacobperovichportfolio.goals
+  FROM Portfolio_Data.Daily_Store_Goals
 ),
 
-
--- Aggregates total sales per store and day while filtering out bag fees and gift card sales.
-net_sales_per_store AS (
+-- Aggregates total sales per store and day while excluding bag fees and gift card sales.
+sales_per_store AS (
   SELECT
     Date,
-    Location,    
+    TRIM(Location) AS Store,    
     ROUND(SUM(Net_sales), 2) AS Net_Sales
-  FROM jacobperovichportfolio.sales
+  FROM Portfolio_Data.Store_Item_Sales
   WHERE
-    LOWER(product_name) NOT IN('bag_fee', 'gift_card')
+    LOWER(product_name) <> 'bag_fee' AND LOWER(product_name) <> 'gift_card'
   GROUP BY Date, Location
 ),
 
-
--- Daily goals data is joined to the aggregated daily sales table.
+-- Daily goals are joined with the aggregated daily sales data.
 combined AS (
   SELECT
     g.Date,
-    g.Location,
-    COALESCE(g.goal, 0) AS Daily_Goal,
-    COALESCE(ns.Net_Sales, 0) AS Net_Sales
+    g.Store,
+    COALESCE(g.goal, 0) AS Sales_Goal,
+    COALESCE(s.Net_Sales, 0) AS Net_Sales
   FROM daily_goals g
-  LEFT JOIN net_sales_per_store ns
-    ON g.date = ns.date
-    AND g.location = ns.location
+  LEFT JOIN sales_per_store s
+    ON g.Date = s.Date
+    AND g.Store = s.Store
   WHERE
-    g.date BETWEEN '2025-01-01' AND CURRENT_DATE - INTERVAL 1 day
-    -- Updates to this report were made once at the start of a new day. In order to show the correct MTD goal amount for each store, the total goal
-       needed to be calculated only up to the prior day.
+    g.Date <= (select MAX(date) from sales_per_store)
+    -- This report was updated at the start of each day. In order to show the correct MTD goal for each store, the total goal was calculated up to the prior day to match the date the sales table was updated to.
 ),
-
 
 -- Aggregates daily store data to MTD (one row per store).
 mtd_summary AS (
   SELECT
-    Location,
-    SUM(Daily_Goal) AS MTD_Goal,
-    ROUND(SUM(Net_Sales), 2) AS MTD_Sales,
-    ROUND(SUM(Net_Sales) - SUM(Daily_Goal), 2) AS MTD_Difference
+    Store,
+    SUM(Sales_Goal) AS `MTD Sales Goal`,
+    ROUND(SUM(Net_Sales), 2) AS `MTD Sales`,
+    ROUND(SUM(Net_Sales) - SUM(Sales_Goal), 2) AS Difference
   FROM combined
-  GROUP BY Location
+  GROUP BY ROLLUP(Store)
 )
 
-
 SELECT
-  Location,
-  MTD_Goal,
-  MTD_Sales,
-  MTD_Difference,
-  ROUND(MTD_Difference / NULLIF(MTD_Goal, 0), 4) AS MTD_Percent
+   COALESCE(Store, 'Company Total') AS Store,
+  `MTD Sales Goal`,
+  `MTD Sales`,
+  Difference,
+  ROUND(Difference / NULLIF(`MTD Sales Goal`, 0), 4) AS Percent
 FROM mtd_summary
-WHERE
-  Location <> 'Store Z'
-ORDER BY MTD_Percent DESC;
+ORDER BY 
+  CASE WHEN Store = 'Company Total' THEN 1 ELSE 0 END,
+  Percent DESC;
 
 ```
 <br>
 
 ## Output MTD Sales Goals Report
-<img src="images/MTD_Sales_Goals_Report_img.PNG" width="200" alt="schema">
+<img src="images/MTD_Sales_Goals_Report_img.PNG" width="600" alt="schema">
 
