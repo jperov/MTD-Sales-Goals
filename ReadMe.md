@@ -1,39 +1,35 @@
-# MTD-Sales-Goals-Report
-
-<br>
-
 ## Overview
 The MTD Sales Goals report compares each store's month-to-date sales against it's sales goals. This report can be used to identify both over and underperforming stores, investigate the drivers influencing performance, and uncover opportunities for improvement. Data was stored in BigQuery and connected to Google Sheets for convenient manager access. 
 
 <br>
-<br>
 
 ## Dataset
 
-Two tables were joined together to create this report. The **Daily_Store_Goals-Feb2026** table, and the **Store_Item_Sales-Feb2026** table. Each tables details are shown below.
-
-
-**Daily_Store_Goals-Feb2026**
-* Data: Each stores daily sales goal in February 2026
-* Number of Rows: 700
-
-**Schema:**
-
-img
+Two tables were joined together to create this report. The **"Daily_Store_Goals"** table, and the **"Store_Item_Sales"** table. Each tables details are shown below.
 
 <br>
 
-**Store_Item_Sales-Feb2026**
-* Data: All item-level sales for all stores in February 2026
-* Number of Rows: 51k
+**Table 1: Daily_Store_Goals**
+* **Data:** Each stores daily sales goal in February 2026
+* **Number of Rows:** 700
 
 **Schema:**
 
-img
+<img src="images/Schema_Sales_Goals_Table.PNG" width="200" alt="schema">
 
 <br>
 
-### SQL Query Used
+**Table 2: Store_Item_Sales**
+* **Data:** All item-level sales for all stores in February 2026
+* **Number of Rows:** 51k
+
+**Schema:**
+
+<img src="images/Schema_Sales_Table.PNG" width="200" alt="schema">
+
+<br>
+
+## SQL Query Used
 ```SQL
 -- Gathers all daily goals data from the goals table.
 WITH
@@ -104,5 +100,5 @@ ORDER BY MTD_Percent DESC;
 <br>
 
 ## Output MTD Sales Goals Report
-<img src="MTD_Goals_Report_img.PNG" width="1000" height="1000" />
+<img src="images/MTD_Sales_Goals_Report_img.PNG" width="200" alt="schema">
 
