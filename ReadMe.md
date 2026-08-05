@@ -2,7 +2,8 @@
 
 <br>
 
-The MTD Sales Goals report compares each stores month-to-date sales against it's sales goals. This report can be used to identify underperforming stores, investigate what root causes could be driving a performance decline and uncover opprotunities to improve sales. The data was stored in BigQuery and connected to Google Sheets for easy viewing. The SQL query used to create the report and an image of the query output can be found below.
+## Purpose
+The MTD Sales Goals report compares each store's month-to-date sales against it's sales goals. This report can be used to identify both over and underperforming stores, investigate the drivers influencing performance, and uncover opportunities for improvement. The data was stored in BigQuery and connected to Google Sheets for easy viewing. The SQL query used to create the report and an image of the query output can be found below.
 
 <br>
 <br>
